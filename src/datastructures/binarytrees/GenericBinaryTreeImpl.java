@@ -18,10 +18,7 @@ public class GenericBinaryTreeImpl<T extends Comparable <T>> implements GenericB
 
     @Override
     public boolean contains(T item) {
-        if (root == null){
-            return false;
-        }
-        return false;
+        return contains(root, item);
     }
 
     @Override
@@ -33,10 +30,7 @@ public class GenericBinaryTreeImpl<T extends Comparable <T>> implements GenericB
 
     @Override
     public boolean delete(T item) {
-        if (root == null){
-            return false;
-        }
-        return false;
+        return delete(root, item);
     }
 
 
@@ -58,7 +52,19 @@ public class GenericBinaryTreeImpl<T extends Comparable <T>> implements GenericB
         return posOrder(root, msg);
     }
 
+    private boolean contains(Node parent, T item){
+        if(parent == null){
+            return false;
+        }
+        if(parent.getItem().compareTo(item) < 0){
+            return contains(parent.getRight(), item);
+        }else if(parent.getItem().compareTo(item) > 0){
+            return contains(parent.getLeft(), item);
+        }else{
+            return true;
+        }
 
+    }
 
     private Node addNode(Node parent, Node insert) {
         if(parent == null) {
@@ -74,6 +80,47 @@ public class GenericBinaryTreeImpl<T extends Comparable <T>> implements GenericB
         }
         return parent;
     }
+
+    private boolean delete(Node parent, T item){
+        if(parent == null){
+            return false;
+        }
+        if(parent.getItem().compareTo(item) < 0){
+            return delete(parent.getRight(), item);
+        }else if(parent.getItem().compareTo(item) > 0){
+            return delete(parent.getLeft(), item);
+        }else{
+            deletion(parent);
+            return true;
+        }
+    }
+
+    private void deletion(Node node){
+        if(node.getLeft() == null && node.getRight() == null){
+            node = null;
+        }else if(node.getLeft() != null && node.getRight() == null){
+            Node parent = node.getParent();
+            node = node.getLeft();
+            node.setParent(parent);
+        }else if(node.getRight() != null && node.getLeft() == null){
+            Node parent = node.getParent();
+            node = node.getRight();
+            node.setParent(parent);
+        }else{
+            Node substitute = getNodeMinValue(node);
+            substitute.getParent().setLeft(null);
+            node.setItem(substitute.getItem());
+            
+        }
+    }
+
+    private Node getNodeMinValue(Node node){
+        if(node.getLeft() != null){
+            return getNodeMinValue(node.getLeft());
+        }
+        return node;
+    }
+
 
     private String inOrder(Node node, StringBuilder msg) {
         if(node != null){

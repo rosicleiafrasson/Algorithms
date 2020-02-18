@@ -21,6 +21,32 @@ public class GenericBinaryTreeImplTest {
     }
 
     @Test
+    void containItem() {
+        GenericBinaryTree<Contact> contacts = new GenericBinaryTreeImpl<Contact>();
+        contacts.insert(new Contact("Maria"));
+        contacts.insert(new Contact("Ana"));
+        contacts.insert(new Contact("Beatriz"));
+        contacts.insert(new Contact("Manuela"));
+        contacts.insert(new Contact("Rosimery"));
+        contacts.insert(new Contact("Thalia"));
+        contacts.insert(new Contact("Amanda"));
+        assertEquals(true, contacts.contains(new Contact("Thalia")));
+    }
+
+    @Test
+    void dontContainItem() {
+        GenericBinaryTree<Contact> contacts = new GenericBinaryTreeImpl<Contact>();
+        contacts.insert(new Contact("Maria"));
+        contacts.insert(new Contact("Ana"));
+        contacts.insert(new Contact("Beatriz"));
+        contacts.insert(new Contact("Manuela"));
+        contacts.insert(new Contact("Rosimery"));
+        contacts.insert(new Contact("Thalia"));
+        contacts.insert(new Contact("Amanda"));
+        assertEquals(false, contacts.contains(new Contact("Augusto")));
+    }
+
+    @Test
     void preOrder(){
         GenericBinaryTree<Contact> contacts = new GenericBinaryTreeImpl<Contact>();
         contacts.insert(new Contact("Maria"));
@@ -62,13 +88,6 @@ public class GenericBinaryTreeImplTest {
         assertEquals(false, response);
     }
 
-    @Test
-    void inOrder(){
-        GenericBinaryTree<Contact> contacts = new GenericBinaryTreeImpl<Contact>();
-        Contact contact = new Contact("Maria");
-        contacts.insert(contact);
-        contacts.inOrder();
-        //faltam testes
-    }
+
 
 }
